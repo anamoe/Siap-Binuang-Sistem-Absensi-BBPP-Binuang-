@@ -69,13 +69,13 @@ class TrackingPegawaiController extends Controller
 
             if ($hariLower == 'jumat') {
                 $jamMasuk = '07:30';
-                $jamIstirahatMulai = '12:30';
-                $jamIstirahatSelesai = '14:30';
+                $jamIstirahatMulai = '12:00';
+                $jamIstirahatSelesai = '14:00';
                 $jamPulang = '16:30';
             } else {
                 $jamMasuk = '07:30';
                 $jamIstirahatMulai = '12:30';
-                $jamIstirahatSelesai = '14:30';
+                $jamIstirahatSelesai = '14:00';
                 $jamPulang = '16:00';
             }
         }
