@@ -1,0 +1,188 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\RiwayatPemeliharaan;
+use App\Models\RiwayatTrackingPegawai;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
+class TrackingPegawaiController extends Controller
+{
+    //
+
+    public function update_pass_all()
+    {
+        User::query()->update([
+            'password' => Hash::make('123')
+        ]);
+    }
+    public function login(Request $request)
+    {
+        $user = User::with('pegawai')->where('username', $request->username)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'Username atau password salah'], 401);
+        }
+
+        $token = $user->createToken('token-login')->plainTextToken;
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'Login berhasil',
+            'token' => $token,
+            'user' => $user
+        ]);
+    }
+
+    public function show($id)
+    {
+        $user = User::with('pegawai')->find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User tidak ditemukan'], 404);
+        }
+
+        return response()->json($user);
+    }
+
+    public function jadwal_kerja()
+    {
+
+        $hariIni = Carbon::now()->locale('id')->dayName;
+        $hariLower = strtolower($hariIni);
+
+        // Default: libur
+        $statusKerja = 'Libur';
+        $jamMasuk = null;
+        $jamIstirahatMulai = null;
+        $jamIstirahatSelesai = null;
+        $jamPulang = null;
+
+        // Cek hari kerja Senin–Jumat
+        if (in_array($hariLower, ['senin', 'selasa', 'rabu', 'kamis', 'jumat'])) {
+            $statusKerja = 'Hari kerja';
+
+            if ($hariLower == 'jumat') {
+                $jamMasuk = '07:30';
+                $jamIstirahatMulai = '12:30';
+                $jamIstirahatSelesai = '14:30';
+                $jamPulang = '16:30';
+            } else {
+                $jamMasuk = '07:30';
+                $jamIstirahatMulai = '12:30';
+                $jamIstirahatSelesai = '14:30';
+                $jamPulang = '16:00';
+            }
+        }
+
+        return response()->json([
+            'code' => 200,
+            'hari' => ucfirst($hariIni),
+            'status_kerja' => $statusKerja,
+            'jam_masuk' => $jamMasuk,
+            'jam_istirahat_mulai' => $jamIstirahatMulai,
+            'jam_istirahat_selesai' => $jamIstirahatSelesai,
+            'jam_pulang' => $jamPulang,
+            'latitude'=>'115.08676788764485',
+            'longitude' =>'115.08676788764485'
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'id_user' => 'required|exists:user,id_user',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'jam_kerja' => 'required|string'
+        ]);
+
+        $absensi = RiwayatTrackingPegawai::create($validated);
+
+        return response()->json([
+            'message' => 'Data Tracking berhasil disimpan',
+            'code' => 201,
+            'data' => $absensi
+        ]);
+    }
+
+    public function tracking($id)
+    {
+        $today = Carbon::today();
+
+        
+    $track = DB::table('riwayat_tracking_pegawais')
+        ->join('user', 'riwayat_tracking_pegawais.id_user', '=', 'user.id_user')
+        ->select(
+            'riwayat_tracking_pegawais.id',
+            'riwayat_tracking_pegawais.id_user',
+            'user.nama',
+            'riwayat_tracking_pegawais.latitude',
+            'riwayat_tracking_pegawais.longitude',
+            'riwayat_tracking_pegawais.jam_kerja',
+            'riwayat_tracking_pegawais.created_at',
+            'riwayat_tracking_pegawais.updated_at'
+        )
+        ->where('riwayat_tracking_pegawais.id_user', $id)
+        ->whereDate('riwayat_tracking_pegawais.created_at', $today)
+        ->orderByDesc('riwayat_tracking_pegawais.created_at')
+        ->get();
+
+        if ($track->isEmpty()) {
+            return response()->json(['message' => 'Data tracking hari ini tidak ditemukan'], 404);
+        }
+
+        return response()->json([
+            'code'=>200,
+            'tanggal' => $today->toDateString(),
+            'total_data' => $track->count(),
+            'data' => $track
+        ]);
+    }
+
+    public function trackingall()
+    {
+         $today = Carbon::today();
+
+    // Ambil hanya data tracking terakhir per user pada hari ini
+     $track = RiwayatTrackingPegawai::select(
+            'riwayat_tracking_pegawais.id',
+            'riwayat_tracking_pegawais.id_user',
+            'user.nama',
+            'pegawai.nip',
+            'pegawai.jabatan',
+            'riwayat_tracking_pegawais.latitude',
+            'riwayat_tracking_pegawais.longitude',
+            'riwayat_tracking_pegawais.jam_kerja',
+            'riwayat_tracking_pegawais.created_at'
+        )
+        ->join(DB::raw('(
+            SELECT id_user, MAX(created_at) AS last_created
+            FROM riwayat_tracking_pegawais
+            WHERE DATE(created_at) = CURDATE()
+            GROUP BY id_user
+        ) AS latest'), function ($join) {
+            $join->on('riwayat_tracking_pegawais.id_user', '=', 'latest.id_user')
+                 ->on('riwayat_tracking_pegawais.created_at', '=', 'latest.last_created');
+        })
+        ->join('user', 'riwayat_tracking_pegawais.id_user', '=', 'user.id_user')
+        ->leftJoin('pegawai', 'user.id_pegawai', '=', 'pegawai.id_pegawai')
+        ->orderByDesc('riwayat_tracking_pegawais.created_at')
+        ->get();
+
+    if ($track->isEmpty()) {
+        return response()->json(['message' => 'Data tracking hari ini tidak ditemukan'], 404);
+    }
+
+    return response()->json([
+        'tanggal' => $today->toDateString(),
+        'total_user' => $track->count(),
+        'data' => $track
+    ]);
+    }
+}
