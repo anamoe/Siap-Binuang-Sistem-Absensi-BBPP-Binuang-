@@ -154,7 +154,6 @@ class TrackingPegawaiController extends Controller
             'riwayat_tracking_pegawais.id',
             'riwayat_tracking_pegawais.id_user',
             'user.nama',
-            'pegawai.nip',
             'pegawai.jabatan',
             'riwayat_tracking_pegawais.latitude',
             'riwayat_tracking_pegawais.longitude',
