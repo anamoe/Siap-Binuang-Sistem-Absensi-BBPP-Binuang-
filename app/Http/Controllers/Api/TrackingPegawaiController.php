@@ -88,7 +88,7 @@ class TrackingPegawaiController extends Controller
             'jam_istirahat_mulai' => $jamIstirahatMulai,
             'jam_istirahat_selesai' => $jamIstirahatSelesai,
             'jam_pulang' => $jamPulang,
-            'latitude'=>'115.08676788764485',
+            'latitude'=>'-3.154397750534802',
             'longitude' =>'115.08676788764485'
         ]);
     }
