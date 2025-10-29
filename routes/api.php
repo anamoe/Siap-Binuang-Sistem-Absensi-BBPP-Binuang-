@@ -18,11 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('/updatepasword', [TrackingPegawaiController::class, 'update_pass_all']);
+
 Route::post('/login', [TrackingPegawaiController::class, 'login']);
 Route::get('/user/{id}', [TrackingPegawaiController::class, 'show']);
 Route::get('/jamkerja', [TrackingPegawaiController::class, 'jadwal_kerja']);
-Route::get('/updatepasword', [TrackingPegawaiController::class, 'update_pass_all']);
 Route::post('/trackingpegawai', [TrackingPegawaiController::class, 'store']);
-
 Route::get('/tracking/{id}', [TrackingPegawaiController::class, 'tracking']);
 Route::get('/trackingall', [TrackingPegawaiController::class, 'trackingall']);

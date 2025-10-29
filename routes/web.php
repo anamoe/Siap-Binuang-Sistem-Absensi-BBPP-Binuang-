@@ -55,7 +55,7 @@ Route::middleware(['roles:pegawai', 'auth'])->group(function () {
 Route::get('/dashboardqr/{uuid}', [AsetController::class, 'showqr'])->name('dashboardqr');
 
 Route::get('/scan', function () {
-    return view('bmn.scan');
+    return view('qrcode.scan');
 })->name('scan.qrcode');
 Route::get('/get-asset/{uuid}', [BmnController::class, 'getAsset']);
 

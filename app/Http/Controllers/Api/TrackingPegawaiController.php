@@ -31,23 +31,54 @@ class TrackingPegawaiController extends Controller
 
         $token = $user->createToken('token-login')->plainTextToken;
 
+        // Cek apakah ada foto_profil dan tambahkan URL lengkap
+        $fotoProfilUrl = null;
+        if ($user->foto_profil && file_exists(public_path('foto/' . $user->foto_profil))) {
+            $fotoProfilUrl = asset('foto/' . $user->foto_profil);
+        }
+
         return response()->json([
             'code' => 200,
             'message' => 'Login berhasil',
             'token' => $token,
-            'user' => $user
+            'user' => [
+                'id' => $user->id_user,
+                'username' => $user->username,
+                'nama' => $user->pegawai->nama ?? null,
+                'jabatan' => $user->pegawai->jabatan ?? null,
+                'pangkat' => $user->pegawai->pangkat ?? null,
+                'role' => $user->role,
+                'foto_profil' => $fotoProfilUrl,
+            ]
         ]);
     }
 
     public function show($id)
     {
         $user = User::with('pegawai')->find($id);
+        $fotoProfilUrl = null;
+        if ($user->foto_profil && file_exists(public_path('foto/' . $user->foto_profil))) {
+            $fotoProfilUrl = asset('foto/' . $user->foto_profil);
+        }
 
         if (!$user) {
             return response()->json(['message' => 'User tidak ditemukan'], 404);
         }
 
-        return response()->json($user);
+        return response()->json([
+            'code' => 200,
+            'message' => 'Login berhasil',
+
+            'user' => [
+                'id' => $user->id_user,
+                'username' => $user->username,
+                'nama' => $user->pegawai->nama ?? null,
+                'jabatan' => $user->pegawai->jabatan ?? null,
+                'pangkat' => $user->pegawai->pangkat ?? null,
+                'role' => $user->role,
+                'foto_profil' => $fotoProfilUrl,
+            ]
+        ]);
     }
 
     public function jadwal_kerja()
@@ -88,8 +119,8 @@ class TrackingPegawaiController extends Controller
             'jam_istirahat_mulai' => $jamIstirahatMulai,
             'jam_istirahat_selesai' => $jamIstirahatSelesai,
             'jam_pulang' => $jamPulang,
-            'latitude'=>'-3.154397750534802',
-            'longitude' =>'115.08676788764485'
+            'latitude' => '-3.154397750534802',
+            'longitude' => '115.08676788764485'
         ]);
     }
 
@@ -115,30 +146,30 @@ class TrackingPegawaiController extends Controller
     {
         $today = Carbon::today();
 
-        
-    $track = DB::table('riwayat_tracking_pegawais')
-        ->join('user', 'riwayat_tracking_pegawais.id_user', '=', 'user.id_user')
-        ->select(
-            'riwayat_tracking_pegawais.id',
-            'riwayat_tracking_pegawais.id_user',
-            'user.nama',
-            'riwayat_tracking_pegawais.latitude',
-            'riwayat_tracking_pegawais.longitude',
-            'riwayat_tracking_pegawais.jam_kerja',
-            'riwayat_tracking_pegawais.created_at',
-            'riwayat_tracking_pegawais.updated_at'
-        )
-        ->where('riwayat_tracking_pegawais.id_user', $id)
-        ->whereDate('riwayat_tracking_pegawais.created_at', $today)
-        ->orderByDesc('riwayat_tracking_pegawais.created_at')
-        ->get();
+
+        $track = DB::table('riwayat_tracking_pegawais')
+            ->join('user', 'riwayat_tracking_pegawais.id_user', '=', 'user.id_user')
+            ->select(
+                'riwayat_tracking_pegawais.id',
+                'riwayat_tracking_pegawais.id_user',
+                'user.nama',
+                'riwayat_tracking_pegawais.latitude',
+                'riwayat_tracking_pegawais.longitude',
+                'riwayat_tracking_pegawais.jam_kerja',
+                'riwayat_tracking_pegawais.created_at',
+                'riwayat_tracking_pegawais.updated_at'
+            )
+            ->where('riwayat_tracking_pegawais.id_user', $id)
+            ->whereDate('riwayat_tracking_pegawais.created_at', $today)
+            ->orderByDesc('riwayat_tracking_pegawais.created_at')
+            ->get();
 
         if ($track->isEmpty()) {
             return response()->json(['message' => 'Data tracking hari ini tidak ditemukan'], 404);
         }
 
         return response()->json([
-            'code'=>200,
+            'code' => 200,
             'tanggal' => $today->toDateString(),
             'total_data' => $track->count(),
             'data' => $track
@@ -147,10 +178,10 @@ class TrackingPegawaiController extends Controller
 
     public function trackingall()
     {
-         $today = Carbon::today();
+        $today = Carbon::today();
 
-    // Ambil hanya data tracking terakhir per user pada hari ini
-     $track = RiwayatTrackingPegawai::select(
+        // Ambil hanya data tracking terakhir per user pada hari ini
+        $track = RiwayatTrackingPegawai::select(
             'riwayat_tracking_pegawais.id',
             'riwayat_tracking_pegawais.id_user',
             'user.nama',
@@ -160,28 +191,28 @@ class TrackingPegawaiController extends Controller
             'riwayat_tracking_pegawais.jam_kerja',
             'riwayat_tracking_pegawais.created_at'
         )
-        ->join(DB::raw('(
+            ->join(DB::raw('(
             SELECT id_user, MAX(created_at) AS last_created
             FROM riwayat_tracking_pegawais
             WHERE DATE(created_at) = CURDATE()
             GROUP BY id_user
         ) AS latest'), function ($join) {
-            $join->on('riwayat_tracking_pegawais.id_user', '=', 'latest.id_user')
-                 ->on('riwayat_tracking_pegawais.created_at', '=', 'latest.last_created');
-        })
-        ->join('user', 'riwayat_tracking_pegawais.id_user', '=', 'user.id_user')
-        ->leftJoin('pegawai', 'user.id_pegawai', '=', 'pegawai.id_pegawai')
-        ->orderByDesc('riwayat_tracking_pegawais.created_at')
-        ->get();
+                $join->on('riwayat_tracking_pegawais.id_user', '=', 'latest.id_user')
+                    ->on('riwayat_tracking_pegawais.created_at', '=', 'latest.last_created');
+            })
+            ->join('user', 'riwayat_tracking_pegawais.id_user', '=', 'user.id_user')
+            ->leftJoin('pegawai', 'user.id_pegawai', '=', 'pegawai.id_pegawai')
+            ->orderByDesc('riwayat_tracking_pegawais.created_at')
+            ->get();
 
-    if ($track->isEmpty()) {
-        return response()->json(['message' => 'Data tracking hari ini tidak ditemukan'], 404);
-    }
+        if ($track->isEmpty()) {
+            return response()->json(['message' => 'Data tracking hari ini tidak ditemukan'], 404);
+        }
 
-    return response()->json([
-        'tanggal' => $today->toDateString(),
-        'total_user' => $track->count(),
-        'data' => $track
-    ]);
+        return response()->json([
+            'tanggal' => $today->toDateString(),
+            'total_user' => $track->count(),
+            'data' => $track
+        ]);
     }
 }
