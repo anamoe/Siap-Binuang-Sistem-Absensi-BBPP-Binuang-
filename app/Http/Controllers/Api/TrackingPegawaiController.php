@@ -67,7 +67,7 @@ class TrackingPegawaiController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => 'Login berhasil',
+            'message' => 'success',
 
             'user' => [
                 'id' => $user->id_user,
@@ -75,6 +75,7 @@ class TrackingPegawaiController extends Controller
                 'nama' => $user->pegawai->nama ?? null,
                 'jabatan' => $user->pegawai->jabatan ?? null,
                 'pangkat' => $user->pegawai->pangkat ?? null,
+                'no_hp' => $user->pegawai->no_hp?? null,
                 'role' => $user->role,
                 'foto_profil' => $fotoProfilUrl,
             ]
