@@ -187,32 +187,31 @@ class TrackingPegawaiController extends Controller
 
         $today = Carbon::today();
 
-        // Ambil data tracking terakhir per user hari ini
         $track = RiwayatTrackingPegawai::from('riwayat_tracking_pegawais as rtp')
-            ->select(
-                'rtp.id',
-                'rtp.id_user',
-                'user.nama',
-                'pegawai.jabatan',
-                'pegawai.no_hp',
-                'rtp.latitude',
-                'rtp.longitude',
-                'rtp.jam_kerja',
-                DB::raw("DATE_FORMAT(rtp.created_at, '%Y-%m-%d %H:%i') as created_at")
-            )
-            ->join(DB::raw('(
+    ->select(
+        'rtp.id',
+        'rtp.id_user',
+        'user.nama',
+        'pegawai.jabatan',
+        'pegawai.no_hp',
+        'rtp.latitude',
+        'rtp.longitude',
+        'rtp.jam_kerja',
+        DB::raw("DATE_FORMAT(rtp.created_at, '%Y-%m-%d %H:%i') as created")
+    )
+    ->join(DB::raw('(
         SELECT id_user, MAX(created_at) AS last_created
         FROM riwayat_tracking_pegawais
         WHERE DATE(created_at) = CURDATE()
         GROUP BY id_user
     ) latest'), function ($join) {
-                $join->on('rtp.id_user', '=', 'latest.id_user')
-                    ->on('rtp.created_at', '=', 'latest.last_created');
-            })
-            ->join('user', 'rtp.id_user', '=', 'user.id_user')
-            ->leftJoin('pegawai', 'user.id_pegawai', '=', 'pegawai.id_pegawai')
-            ->orderByDesc('rtp.created_at')
-            ->get();
+        $join->on('rtp.id_user', '=', 'latest.id_user')
+             ->on('rtp.created_at', '=', 'latest.last_created');
+    })
+    ->join('user', 'rtp.id_user', '=', 'user.id_user')
+    ->leftJoin('pegawai', 'user.id_pegawai', '=', 'pegawai.id_pegawai')
+    ->orderByDesc('rtp.created_at')
+    ->get();
 
         if ($track->isEmpty()) {
             return response()->json(['message' => 'Data tracking hari ini tidak ditemukan'], 404);
