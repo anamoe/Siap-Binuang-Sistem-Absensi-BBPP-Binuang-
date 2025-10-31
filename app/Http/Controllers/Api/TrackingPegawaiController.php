@@ -219,7 +219,7 @@ class TrackingPegawaiController extends Controller
 
         // Tambahkan status_online ke setiap data
         $track = $track->map(function ($item) {
-            $item->status_online = Carbon::parse($item->created_at)->diffInMinutes(now()) <= 15;
+            $item->status_online = Carbon::parse($item->created)->diffInMinutes(now()) <= 15;
             return $item;
         });
 
