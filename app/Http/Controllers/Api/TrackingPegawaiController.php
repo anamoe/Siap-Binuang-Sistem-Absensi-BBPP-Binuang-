@@ -75,7 +75,7 @@ class TrackingPegawaiController extends Controller
                 'nama' => $user->pegawai->nama ?? null,
                 'jabatan' => $user->pegawai->jabatan ?? null,
                 'pangkat' => $user->pegawai->pangkat ?? null,
-                'no_hp' => $user->pegawai->no_hp?? null,
+                'no_hp' => $user->pegawai->no_hp ?? null,
                 'role' => $user->role,
                 'foto_profil' => $fotoProfilUrl,
             ]
@@ -94,6 +94,7 @@ class TrackingPegawaiController extends Controller
         $jamIstirahatMulai = null;
         $jamIstirahatSelesai = null;
         $jamPulang = null;
+        $jamPulang = null;
 
         // Cek hari kerja Senin–Jumat
         if (in_array($hariLower, ['senin', 'selasa', 'rabu', 'kamis', 'jumat'])) {
@@ -102,12 +103,12 @@ class TrackingPegawaiController extends Controller
             if ($hariLower == 'jumat') {
                 $jamMasuk = '07:30';
                 $jamIstirahatMulai = '12:00';
-                $jamIstirahatSelesai = '14:00';
+                $jamIstirahatSelesai = '13:30';
                 $jamPulang = '16:30';
             } else {
                 $jamMasuk = '07:30';
                 $jamIstirahatMulai = '12:30';
-                $jamIstirahatSelesai = '14:00';
+                $jamIstirahatSelesai = '13:30';
                 $jamPulang = '16:00';
             }
         }
@@ -120,12 +121,34 @@ class TrackingPegawaiController extends Controller
             'jam_istirahat_mulai' => $jamIstirahatMulai,
             'jam_istirahat_selesai' => $jamIstirahatSelesai,
             'jam_pulang' => $jamPulang,
-            'latitude' => '-3.154397750534802',
-            'longitude' => '115.08676788764485',
-            'radius' => '200',
-            'periode_tracking' => '5',
-            
+            'latitude_initial' => -3.154397750534802,
+            'longitude_initial' => 115.08676788764485,
+            'radius_meter' => '260',
+            'periode_tracking' => '15',
+            'titik_gedung' => [
+                ['nama' => 'Kantor Satpam', 'latitude' => -3.1555570332755827, 'longitude' => 115.08563653037746],
+                ['nama' => 'Perpustakaan Binuang', 'latitude' => -3.154783495360809, 'longitude' => 115.0863471628111],
+                ['nama' => 'Kantor Utama', 'latitude' => -3.1546936337485367, 'longitude' => 115.08672517032083],
+                ['nama' => 'Aula Bangkinang', 'latitude' => -3.154495403221914, 'longitude' => 115.08708911694636],
+                ['nama' => 'Kelas Tangkuhis', 'latitude' => -3.154930998658024, 'longitude' => 115.08716752869245],
+                ['nama' => 'Ruang AOR', 'latitude' => -3.154851461844634, 'longitude' => 115.08740270810367],
+                ['nama' => 'Kelas Sangkuang', 'latitude' => -3.1546848132635112, 'longitude' => 115.08739132845474],
+                ['nama' => 'Kelas Gitaan', 'latitude' => -3.1545143771846584, 'longitude' => 115.0875184012022],
+                ['nama' => 'Bengkel', 'latitude' => -3.154273872887312, 'longitude' => 115.08763219769406],
+                ['nama' => 'Kasturi', 'latitude' => -3.1542119410808818, 'longitude' => 115.08650108641977],
+                ['nama' => 'Musholla', 'latitude' => -3.155137671698393, 'longitude' => 115.08671644546078],
 
+
+            ],
+            'batasan_area' => [
+                ['nama' => 'Batas Depan Kiri', 'latitude' => -3.153422954410393,  'longitude' => 115.08464420662081],
+                ['nama' => 'Batas Depan Kanan', 'latitude' => -3.156035929443358,  'longitude' => 115.08570517155849],
+                ['nama' => 'Batas Tengah Kiri', 'latitude' => -3.1529699679727514, 'longitude' => 115.08524671741775],
+                ['nama' => 'Batas Tengah Kanan', 'latitude' => -3.155215392828469,  'longitude' => 115.08687122032067],
+                ['nama' => 'Batas Belakang Tengah', 'latitude' => -3.15313432085182,  'longitude' => 115.086440215045028],
+                ['nama' => 'Batas Belakang Kanan', 'latitude' => -3.154722455763412, 'longitude' => 115.08945834075793],
+
+            ],
         ]);
     }
 
@@ -171,7 +194,11 @@ class TrackingPegawaiController extends Controller
 
 
         if ($track->isEmpty()) {
-            return response()->json(['message' => 'Data tracking hari ini tidak ditemukan'], 404);
+            return response()->json([
+                'code' => 200,
+                'status' => 'success',
+                'message' => 'Data tracking hari ini tidak ditemukan',
+            ], 200);
         }
         $latestTrack = $track->first();
 
@@ -193,33 +220,37 @@ class TrackingPegawaiController extends Controller
         $today = Carbon::today();
 
         $track = RiwayatTrackingPegawai::from('riwayat_tracking_pegawais as rtp')
-    ->select(
-        'rtp.id',
-        'rtp.id_user',
-        'user.nama',
-        'pegawai.jabatan',
-        'pegawai.no_hp',
-        'rtp.latitude',
-        'rtp.longitude',
-        'rtp.jam_kerja',
-        DB::raw("DATE_FORMAT(rtp.created_at, '%Y-%m-%d %H:%i') as created")
-    )
-    ->join(DB::raw('(
+            ->select(
+                'rtp.id',
+                'rtp.id_user',
+                'user.nama',
+                'pegawai.jabatan',
+                'pegawai.no_hp',
+                'rtp.latitude',
+                'rtp.longitude',
+                'rtp.jam_kerja',
+                DB::raw("DATE_FORMAT(rtp.created_at, '%Y-%m-%d %H:%i') as created")
+            )
+            ->join(DB::raw('(
         SELECT id_user, MAX(created_at) AS last_created
         FROM riwayat_tracking_pegawais
         WHERE DATE(created_at) = CURDATE()
         GROUP BY id_user
     ) latest'), function ($join) {
-        $join->on('rtp.id_user', '=', 'latest.id_user')
-             ->on('rtp.created_at', '=', 'latest.last_created');
-    })
-    ->join('user', 'rtp.id_user', '=', 'user.id_user')
-    ->leftJoin('pegawai', 'user.id_pegawai', '=', 'pegawai.id_pegawai')
-    ->orderByDesc('rtp.created_at')
-    ->get();
+                $join->on('rtp.id_user', '=', 'latest.id_user')
+                    ->on('rtp.created_at', '=', 'latest.last_created');
+            })
+            ->join('user', 'rtp.id_user', '=', 'user.id_user')
+            ->leftJoin('pegawai', 'user.id_pegawai', '=', 'pegawai.id_pegawai')
+            ->orderByDesc('rtp.created_at')
+            ->get();
 
         if ($track->isEmpty()) {
-            return response()->json(['message' => 'Data tracking hari ini tidak ditemukan'], 404);
+            return response()->json([
+                'code' => 200,
+                'status' => 'success',
+                'message' => 'Data tracking hari ini tidak ditemukan',
+            ], 200);
         }
 
         // Tambahkan status_online ke setiap data
