@@ -123,8 +123,8 @@ class TrackingPegawaiController extends Controller
             'jam_pulang' => $jamPulang,
             'latitude_initial' => -3.154397750534802,
             'longitude_initial' => 115.08676788764485,
-            'radius_meter' => '260',
-            'periode_tracking' => '15',
+            'radius_meter' => 260,
+            'periode_tracking_menit' => 15,
             'titik_gedung' => [
                 ['nama' => 'Kantor Satpam', 'latitude' => -3.1555570332755827, 'longitude' => 115.08563653037746],
                 ['nama' => 'Perpustakaan Binuang', 'latitude' => -3.154783495360809, 'longitude' => 115.0863471628111],
