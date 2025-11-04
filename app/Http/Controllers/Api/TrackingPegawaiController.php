@@ -137,6 +137,15 @@ class TrackingPegawaiController extends Controller
                 ['nama' => 'Bengkel', 'latitude' => -3.154273872887312, 'longitude' => 115.08763219769406],
                 ['nama' => 'Kasturi', 'latitude' => -3.1542119410808818, 'longitude' => 115.08650108641977],
                 ['nama' => 'Musholla', 'latitude' => -3.155137671698393, 'longitude' => 115.08671644546078],
+                ['nama' => 'Lahan', 'latitude' => -3.1535060147089875,  'longitude' => 115.0855205821805],
+                ['nama' => 'Lahan', 'latitude' => -3.153758714855892,   'longitude' => 115.08674241044525],
+                ['nama' => 'Lahan', 'latitude' => -3.1551620628056365,   'longitude' => 115.0877080056836],
+                ['nama' => 'Lahan', 'latitude' => -3.153822990371046,   'longitude' => 115.08811033704178],
+                ['nama' => 'Lahan', 'latitude' => -3.155654832062707,   'longitude' => 115.08613968409195],
+
+                ['nama' => 'Rumah Dinas', 'latitude' => -3.155686978732815,  'longitude' => 115.08731103875488],
+                ['nama' => 'Rumah Dinas', 'latitude' => -3.1542997003602493, 'longitude' => 115.08868432976658],
+                ['nama' => 'Rumah Dinas', 'latitude' => -3.1547871226956645,   'longitude' => 115.08905983902626],
 
 
             ],
