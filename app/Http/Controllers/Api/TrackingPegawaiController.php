@@ -141,6 +141,14 @@ class TrackingPegawaiController extends Controller
 
             ],
             'batasan_area' => [
+
+                ['nama' => 'Batas Belakang Kiri0', 'latitude' => -3.153331900124682,  'longitude' => 115.08757765257262 ],
+                ['nama' => 'Batas Belakang Kiri0', 'latitude' => -3.153256911982282,   'longitude' => 115.08680785858347 ],
+                ['nama' => 'Batas Belakang Kiri0', 'latitude' => -3.1531122919704773,  'longitude' => 115.08637334071847 ],
+                ['nama' => 'Batas Belakang Kiri0', 'latitude' => -3.153029269366863,   'longitude' => 115.08595491611834 ],
+                ['nama' => 'Batas Belakang Kiri0', 'latitude' => -3.152973028248002,  'longitude' => 115.08574302160204 ],
+                ['nama' => 'Batas Belakang Kiri0', 'latitude' => -3.152924821569288,  'longitude' => 115.08552844488402 ],
+
                 
                 ['nama' => 'Batas Depan Kiri0', 'latitude' => -3.1529649937978435,  'longitude' => 115.08538360559497 ],
                 ['nama' => 'Batas Depan Kiri0', 'latitude' => -3.152957031715876,   'longitude' =>115.08523651987295],
@@ -168,12 +176,7 @@ class TrackingPegawaiController extends Controller
 
                 ['nama' => 'Batas Belakang Tengah', 'latitude' => -3.1560289548181393,   'longitude' => 115.08753323730369],
                 ['nama' => 'Batas Belakang Tengah1', 'latitude' => -3.1561556640135806,   'longitude' =>115.0876575506758],
-                // ['nama' => 'Batas Belakang Tengah2', 'latitude' => -3.155515490256215,   'longitude' => 115.08849188152354],
-                // ['nama' => 'Batas Belakang Tengah3', 'latitude' => -3.1552129279533596,  'longitude' => 115.08890335308995 ],
                 
-
-
-                // ['nama' => 'Batas Belakang Kanan', 'latitude' => -3.154722455763412, 'longitude' => 115.08945834075793],
                 
 
 
