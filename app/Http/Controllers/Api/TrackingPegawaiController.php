@@ -141,7 +141,17 @@ class TrackingPegawaiController extends Controller
 
             ],
             'batasan_area' => [
+        
 
+                
+                ['nama' => 'Batas Belakang Kanan0', 'latitude' => -3.1545036762433547,   'longitude' => 115.08908460820888  ],
+                ['nama' => 'Batas Belakang Kanan0', 'latitude' => -3.154351051710958,   'longitude' => 115.08890707939071 ],
+                ['nama' => 'Batas Belakang Kanan0', 'latitude' => -3.1541407004601894,   'longitude' => 115.08876587115557],
+                ['nama' => 'Batas Belakang Kanan0', 'latitude' => -3.1538193229207816,   'longitude' => 115.08863712512478 ],
+                ['nama' => 'Batas Belakang Kanan0', 'latitude' => -3.153522048599311,   'longitude' => 115.08851374350668 ],
+                ['nama' => 'Batas Belakang Kanan0', 'latitude' => -3.1534283134381424,  'longitude' => 115.08820260726556 ],//
+                ['nama' => 'Batas Belakang Kanan0', 'latitude' => -3.153356003450897,   'longitude' =>115.0877949115013 ],
+                
                 ['nama' => 'Batas Belakang Kiri0', 'latitude' => -3.153331900124682,  'longitude' => 115.08757765257262 ],
                 ['nama' => 'Batas Belakang Kiri0', 'latitude' => -3.153256911982282,   'longitude' => 115.08680785858347 ],
                 ['nama' => 'Batas Belakang Kiri0', 'latitude' => -3.1531122919704773,  'longitude' => 115.08637334071847 ],
