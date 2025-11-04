@@ -154,7 +154,7 @@ class TrackingPegawaiController extends Controller
                 ['nama' => 'Batas Depan Kanan3', 'latitude' =>-3.155450660204763,   'longitude' =>115.08649181108312  ],
                
 
-                ['nama' => 'Batas Tengah Kanan0', 'latitude' => -3.1552006836925015,  'longitude' => 115.08687072835458 ],
+                // ['nama' => 'Batas Tengah Kanan0', 'latitude' => -3.1552006836925015,  'longitude' => 115.08687072835458 ],
                 ['nama' => 'Batas Tengah Kanan1', 'latitude' => -3.1553065296053644,  'longitude' => 115.08696320221812 ],
                 ['nama' => 'Batas Tengah Kanan2', 'latitude' => -3.155527229563994,   'longitude' => 115.0871301062516],
                 ['nama' => 'Batas Tengah Kanan3', 'latitude' => -3.15577664921347,   'longitude' => 115.08733401968415],
