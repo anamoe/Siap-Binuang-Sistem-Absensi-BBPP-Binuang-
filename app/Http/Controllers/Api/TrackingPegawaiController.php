@@ -152,13 +152,13 @@ class TrackingPegawaiController extends Controller
                 ['nama' => 'Batas Depan Kanan', 'latitude' => -3.156035929443358,  'longitude' => 115.08570517155849],
                 ['nama' => 'Batas Depan Kanan2', 'latitude' =>-3.1556555958537547,    'longitude' =>115.08622341135359] ,
                 ['nama' => 'Batas Depan Kanan3', 'latitude' =>-3.155450660204763,   'longitude' =>115.08649181108312  ],
-                // ['nama' => 'Batas Tengah Kiri', 'latitude' =>-3.1553177898107587,'longitude' => 115.08671735708056],
+               
 
-                // ['nama' => 'Batas Tengah Kanan0', 'latitude' => -3.1552006836925015,  'longitude' => 115.08687072835458 ],
-                // ['nama' => 'Batas Tengah Kanan1', 'latitude' => -3.1553065296053644,  'longitude' => 115.08696320221812 ],
-                // ['nama' => 'Batas Tengah Kanan2', 'latitude' => -3.155527229563994,   'longitude' => 115.0871301062516],
-                // ['nama' => 'Batas Tengah Kanan3', 'latitude' => -3.15577664921347,   'longitude' => 115.08733401968415],
-                // ['nama' => 'Batas Tengah Kanan4', 'latitude' => -3.1561237994425153,  'longitude' =>115.08765298988772],
+                ['nama' => 'Batas Tengah Kanan0', 'latitude' => -3.1552006836925015,  'longitude' => 115.08687072835458 ],
+                ['nama' => 'Batas Tengah Kanan1', 'latitude' => -3.1553065296053644,  'longitude' => 115.08696320221812 ],
+                ['nama' => 'Batas Tengah Kanan2', 'latitude' => -3.155527229563994,   'longitude' => 115.0871301062516],
+                ['nama' => 'Batas Tengah Kanan3', 'latitude' => -3.15577664921347,   'longitude' => 115.08733401968415],
+                ['nama' => 'Batas Tengah Kanan4', 'latitude' => -3.1561237994425153,  'longitude' =>115.08765298988772],
 
                 // ['nama' => 'Batas Belakang Tengah', 'latitude' => -3.155916783268271,  'longitude' => 115.08801023651144],
                 // ['nama' => 'Batas Belakang Tengah1', 'latitude' => -3.1557161367801245,   'longitude' =>115.08825584357568],
