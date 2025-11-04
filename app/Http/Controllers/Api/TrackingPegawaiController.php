@@ -143,13 +143,23 @@ class TrackingPegawaiController extends Controller
             'batasan_area' => [
                 ['nama' => 'Batas Depan Kiri', 'latitude' => -3.153422954410393,  'longitude' => 115.08464420662081],
                 ['nama' => 'Batas Depan Kanan', 'latitude' => -3.156035929443358,  'longitude' => 115.08570517155849],
-                // ['nama' => 'Batas Depan Kanan2', 'latitude' => -3.1565575710700396,  'longitude' => 115.08637553759932],
-                ['nama' => 'Batas Depan Kanan3', 'latitude' => -3.155265936233648,  'longitude' => 115.08677761852816],
-                ['nama' => 'Batas Tengah Kiri', 'latitude' => -3.1554699679727514, 'longitude' => 115.08524671741775],
-                ['nama' => 'Batas Tengah Kanan0', 'latitude' => -3.1559178272651423,  'longitude' => 115.08694158448107],
-                ['nama' => 'Batas Tengah Kanan1', 'latitude' => -3.1556007461363046,  'longitude' => 115.08727995426179],
-                ['nama' => 'Batas Tengah Kanan2', 'latitude' => -3.155215392828469,  'longitude' => 115.08687122032067],
-                ['nama' => 'Batas Belakang Tengah', 'latitude' => -3.15313432085182,  'longitude' => 115.086440215045028],
+                ['nama' => 'Batas Depan Kanan2', 'latitude' =>-3.1556555958537547,    'longitude' =>115.08622341135359] ,
+                ['nama' => 'Batas Depan Kanan3', 'latitude' =>-3.155450660204763,   'longitude' =>115.08649181108312  ],
+                ['nama' => 'Batas Tengah Kiri', 'latitude' =>-3.1553177898107587,'longitude' => 115.08671735708056],
+
+                ['nama' => 'Batas Tengah Kanan0', 'latitude' => -3.1552006836925015,  'longitude' => 115.08687072835458 ],
+                ['nama' => 'Batas Tengah Kanan1', 'latitude' => -3.1553065296053644,  'longitude' => 115.08696320221812 ],
+                ['nama' => 'Batas Tengah Kanan2', 'latitude' => -3.155527229563994,   'longitude' => 115.0871301062516],
+                ['nama' => 'Batas Tengah Kanan3', 'latitude' => -3.15577664921347,   'longitude' => 115.08733401968415],
+                ['nama' => 'Batas Tengah Kanan4', 'latitude' => -3.1561237994425153,  'longitude' =>115.08765298988772],
+
+                ['nama' => 'Batas Belakang Tengah', 'latitude' => -3.155916783268271,  'longitude' => 115.08801023651144],
+                ['nama' => 'Batas Belakang Tengah1', 'latitude' => -3.1557161367801245,   'longitude' =>115.08825584357568],
+                ['nama' => 'Batas Belakang Tengah2', 'latitude' => -3.155515490256215,   'longitude' => 115.08849188152354],
+                ['nama' => 'Batas Belakang Tengah3', 'latitude' => -3.1552129279533596,  'longitude' => 115.08890335308995 ],
+                
+
+
                 ['nama' => 'Batas Belakang Kanan', 'latitude' => -3.154722455763412, 'longitude' => 115.08945834075793],
                 
 
