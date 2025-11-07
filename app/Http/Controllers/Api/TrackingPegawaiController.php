@@ -135,7 +135,6 @@ class TrackingPegawaiController extends Controller
                 ['nama' => 'Sangkuang', 'latitude' => -3.1546848132635112, 'longitude' => 115.08739132845474],
                 ['nama' => 'Gitaan', 'latitude' => -3.1545143771846584, 'longitude' => 115.0875184012022],
                 ['nama' => 'Bengkel', 'latitude' => -3.154273872887312, 'longitude' => 115.08763219769406],
-                ['nama' => 'Kasturi', 'latitude' => -3.1542119410808818, 'longitude' => 115.08650108641977],
                 ['nama' => 'Musholla', 'latitude' => -3.155137671698393, 'longitude' => 115.08671644546078],
 
                 ['nama' => 'Lahan', 'latitude' => -3.1536462489307655,  'longitude' =>115.08522660317745],
@@ -148,6 +147,14 @@ class TrackingPegawaiController extends Controller
                 ['nama' => 'Rumah Dinas', 'latitude' => -3.1554235889825715,   'longitude' => 115.08741401894784],
                 ['nama' => 'Rumah Dinas', 'latitude' => -3.1542997003602493, 'longitude' => 115.08868432976658],
                 ['nama' => 'Rumah Dinas', 'latitude' => -3.1547871226956645,   'longitude' => 115.08905983902626],
+
+                ['nama' => 'Kasturi', 'latitude' => -3.1542119410808818, 'longitude' => 115.08650108641977],
+                ['nama' => 'Mundar', 'latitude' => -3.1547518120251152,  'longitude' => 115.08596749552053],
+                ['nama' => 'Pampakin', 'latitude' => -3.1543802250492794,  'longitude' => 115.08600132741766],
+                ['nama' => 'Guest House Maritam', 'latitude' => -3.15455588436037,   'longitude' => 115.0854374624396],
+                ['nama' => 'Guest House Rambai', 'latitude' =>-3.154448412787259,   'longitude' => 115.08559447495924],
+
+
 
 
             ],
