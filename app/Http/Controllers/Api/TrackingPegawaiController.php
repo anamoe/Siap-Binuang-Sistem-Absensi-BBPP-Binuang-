@@ -120,7 +120,7 @@ class TrackingPegawaiController extends Controller
             'latitude_initial' => -3.154397750534802,
             'longitude_initial' => 115.08676788764485,
             'radius_meter' => 260,
-            'periode_tracking_menit' => 5,
+            'periode_tracking_menit' => 2,
             'titik_gedung' => [
                 ['nama' => 'Pos Satpam', 'latitude' => -3.1555570332755827, 'longitude' => 115.08563653037746],
                 ['nama' => 'Perpustakaan', 'latitude' => -3.154783495360809, 'longitude' => 115.0863471628111],
