@@ -24,19 +24,15 @@ class TrackingPegawaiController extends Controller
     public function login(Request $request)
     {
         $user = User::with('pegawai')->where('username', $request->username)->first();
-
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Username atau password salah'], 401);
         }
 
         $token = $user->createToken('token-login')->plainTextToken;
-
-        // Cek apakah ada foto_profil dan tambahkan URL lengkap
         $fotoProfilUrl = null;
         if ($user->foto_profil && file_exists(public_path('foto/' . $user->foto_profil))) {
             $fotoProfilUrl = asset('foto/' . $user->foto_profil);
         }
-
         return response()->json([
             'code' => 200,
             'message' => 'Login berhasil',
@@ -124,7 +120,7 @@ class TrackingPegawaiController extends Controller
             'latitude_initial' => -3.154397750534802,
             'longitude_initial' => 115.08676788764485,
             'radius_meter' => 260,
-            'periode_tracking_menit' => 15,
+            'periode_tracking_menit' => 5,
             'titik_gedung' => [
                 ['nama' => 'Pos Satpam', 'latitude' => -3.1555570332755827, 'longitude' => 115.08563653037746],
                 ['nama' => 'Perpustakaan', 'latitude' => -3.154783495360809, 'longitude' => 115.0863471628111],
@@ -137,12 +133,12 @@ class TrackingPegawaiController extends Controller
                 ['nama' => 'Bengkel', 'latitude' => -3.154273872887312, 'longitude' => 115.08763219769406],
                 ['nama' => 'Musholla', 'latitude' => -3.155137671698393, 'longitude' => 115.08671644546078],
 
-                ['nama' => 'Lahan', 'latitude' => -3.1536462489307655,  'longitude' =>115.08522660317745],
+                ['nama' => 'Lahan', 'latitude' => -3.1536462489307655,  'longitude' => 115.08522660317745],
                 ['nama' => 'Lahan', 'latitude' => -3.153758714855892,   'longitude' => 115.08674241044525],
                 ['nama' => 'Lahan', 'latitude' => -3.1551620628056365,   'longitude' => 115.0877080056836],
                 ['nama' => 'Lahan', 'latitude' => -3.153822990371046,   'longitude' => 115.08811033704178],
                 ['nama' => 'Lahan', 'latitude' => -3.155654832062707,   'longitude' => 115.08613968409195],
-                ['nama' => 'Lapangan Upacara', 'latitude' => -3.1549529259081255,'longitude' => 115.08570075521608],
+                ['nama' => 'Lapangan Upacara', 'latitude' => -3.1549529259081255, 'longitude' => 115.08570075521608],
 
                 ['nama' => 'Rumah Dinas', 'latitude' => -3.1554235889825715,   'longitude' => 115.08741401894784],
                 ['nama' => 'Rumah Dinas', 'latitude' => -3.1542997003602493, 'longitude' => 115.08868432976658],
@@ -152,16 +148,10 @@ class TrackingPegawaiController extends Controller
                 ['nama' => 'Mundar', 'latitude' => -3.1547518120251152,  'longitude' => 115.08596749552053],
                 ['nama' => 'Pampakin', 'latitude' => -3.1543802250492794,  'longitude' => 115.08600132741766],
                 ['nama' => 'Guest House Maritam', 'latitude' => -3.15455588436037,   'longitude' => 115.0854374624396],
-                ['nama' => 'Guest House Rambai', 'latitude' =>-3.154448412787259,   'longitude' => 115.08559447495924],
-
-
-
+                ['nama' => 'Guest House Rambai', 'latitude' => -3.154448412787259,   'longitude' => 115.08559447495924],
 
             ],
             'batasan_area' => [
-
-
-
                 ['nama' => 'Batas Belakang Kanan0', 'latitude' => -3.154688343701509,   'longitude' => 115.08949961283274],
                 ['nama' => 'Batas Belakang Kanan0', 'latitude' => -3.1545712375123256,   'longitude' => 115.08929662144064],
                 ['nama' => 'Batas Belakang Kanan0', 'latitude' => -3.1545036762433547,   'longitude' => 115.08908460820888],
@@ -179,25 +169,20 @@ class TrackingPegawaiController extends Controller
                 ['nama' => 'Batas Belakang Kiri0', 'latitude' => -3.152973028248002,  'longitude' => 115.08574302160204],
                 ['nama' => 'Batas Belakang Kiri0', 'latitude' => -3.152924821569288,  'longitude' => 115.08552844488402],
 
-
                 ['nama' => 'Batas Depan Kiri0', 'latitude' => -3.1529649937978435,  'longitude' => 115.08538360559497],
                 ['nama' => 'Batas Depan Kiri0', 'latitude' => -3.152957031715876,   'longitude' => 115.08523651987295],
                 ['nama' => 'Batas Depan Kiri0', 'latitude' => -3.1530324752448404,   'longitude' => 115.08510344773812],
                 ['nama' => 'Batas Depan Kiri0', 'latitude' => -3.153127061157416,   'longitude' => 115.084956842842547],
                 ['nama' => 'Batas Depan Kiri0', 'latitude' => -3.153267813985657,  'longitude' => 115.08477189512698],
-
                 ['nama' => 'Batas Depan Kiri', 'latitude' => -3.153422954410393,  'longitude' => 115.08464420662081],
                 ['nama' => 'Batas Depan Kiri', 'latitude' => -3.1548898600455995,  'longitude' => 115.0851682555448],
                 ['nama' => 'Batas Depan Kiri', 'latitude' => -3.1551848774538778,   'longitude' => 115.08526072940198],
                 ['nama' => 'Batas Depan Kiri', 'latitude' => -3.15541683764037,   'longitude' => 115.085350947798471],
                 ['nama' => 'Batas Depan Kiri', 'latitude' => -3.155666814097824,   'longitude' => 115.08548401993437],
 
-
-
                 ['nama' => 'Batas Depan Kanan', 'latitude' => -3.156035929443358,  'longitude' => 115.08570517155849],
                 ['nama' => 'Batas Depan Kanan2', 'latitude' => -3.1556555958537547,    'longitude' => 115.08622341135359],
                 ['nama' => 'Batas Depan Kanan3', 'latitude' => -3.155450660204763,   'longitude' => 115.08649181108312],
-
 
                 ['nama' => 'Batas Tengah Kanan1', 'latitude' => -3.1553065296053644,  'longitude' => 115.08696320221812],
                 ['nama' => 'Batas Tengah Kanan2', 'latitude' => -3.155345279269797,  'longitude' => 115.08699689876804],
@@ -293,8 +278,7 @@ class TrackingPegawaiController extends Controller
                 'rtp.longitude',
                 'rtp.jam_kerja',
                 DB::raw("DATE_FORMAT(rtp.created_at, '%Y-%m-%d %H:%i') as created")
-            )
-            ->join(DB::raw('(
+            )->join(DB::raw('(
         SELECT id_user, MAX(created_at) AS last_created
         FROM riwayat_tracking_pegawais
         WHERE DATE(created_at) = CURDATE()
