@@ -80,11 +80,8 @@ class TrackingPegawaiController extends Controller
 
     public function jadwal_kerja()
     {
-
         $hariIni = Carbon::now()->locale('id')->dayName;
         $hariLower = strtolower($hariIni);
-
-        // Default: libur
         $statusKerja = 'Libur';
         $jamMasuk = null;
         $jamIstirahatMulai = null;
@@ -92,7 +89,6 @@ class TrackingPegawaiController extends Controller
         $jamPulang = null;
         $jamPulang = null;
 
-        // Cek hari kerja Senin–Jumat
         if (in_array($hariLower, ['senin', 'selasa', 'rabu', 'kamis', 'jumat'])) {
             $statusKerja = 'Hari kerja';
 
@@ -250,7 +246,7 @@ class TrackingPegawaiController extends Controller
         $latestTrack = $track->first();
 
         // Hitung selisih waktu dari created_at terakhir ke sekarang
-        $isOnline = Carbon::parse($latestTrack->created_at)->diffInMinutes(now()) <= 15;
+        $isOnline = Carbon::parse($latestTrack->created_at)->diffInMinutes(now()) <= 2;
 
         return response()->json([
             'code' => 200,
@@ -309,7 +305,7 @@ class TrackingPegawaiController extends Controller
 
         // Tambahkan status_online ke setiap data
         $track = $track->map(function ($item) {
-            $item->status_online = Carbon::parse($item->created)->diffInMinutes(now()) <= 15;
+            $item->status_online = Carbon::parse($item->created)->diffInMinutes(now()) <= 2;
             return $item;
         });
 
