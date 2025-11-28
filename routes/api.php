@@ -26,3 +26,5 @@ Route::get('/jamkerja', [TrackingPegawaiController::class, 'jadwal_kerja']);
 Route::post('/trackingpegawai', [TrackingPegawaiController::class, 'store']);
 Route::get('/tracking/{id}', [TrackingPegawaiController::class, 'tracking']);
 Route::get('/trackingall', [TrackingPegawaiController::class, 'trackingall']);
+Route::get('/hapus-tracking', [TrackingPegawaiController::class, 'hapus_tracking']);
+Route::get('/resetid', [TrackingPegawaiController::class, 'resetid']);

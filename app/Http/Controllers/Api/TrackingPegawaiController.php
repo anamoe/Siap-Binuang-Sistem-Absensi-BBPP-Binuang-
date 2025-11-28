@@ -315,4 +315,15 @@ class TrackingPegawaiController extends Controller
             'data' => $track
         ]);
     }
+    public function hapus_tracking()
+    {
+        RiwayatTrackingPegawai::whereDate('created_at', '<', Carbon::today())->delete();
+        return 'sukses menghapus riwayat tracking sebelum hari ini';
+    }
+
+      public function resetid()
+    {
+         DB::table('riwayat_tracking_pegawais')->truncate();
+        return 'reset incremenet';
+    }
 }
