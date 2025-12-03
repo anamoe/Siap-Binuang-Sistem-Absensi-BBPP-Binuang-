@@ -17,8 +17,21 @@ class TrackingPegawaiController extends Controller
 
     public function update_pass_all()
     {
-        User::query()->update([
-            'password' => Hash::make('123')
+        // User::query()->update([
+        //     'password' => Hash::make('123')
+        // ]);
+        $users = User::all();
+
+        foreach ($users as $u) {
+            $u->password = Hash::make($u->username);
+            $u->save();
+        }
+    }
+
+    public function update_pass_admin()
+    {
+        User::where('role', 'admin')->update([
+            'password' => Hash::make('adminbinuang')
         ]);
     }
     public function login(Request $request)
@@ -321,9 +334,9 @@ class TrackingPegawaiController extends Controller
         return 'sukses menghapus riwayat tracking sebelum hari ini';
     }
 
-      public function resetid()
+    public function resetid()
     {
-         DB::table('riwayat_tracking_pegawais')->truncate();
+        DB::table('riwayat_tracking_pegawais')->truncate();
         return 'reset incremenet';
     }
 }

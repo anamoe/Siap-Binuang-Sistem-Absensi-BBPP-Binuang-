@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/updatepasword', [TrackingPegawaiController::class, 'update_pass_all']);
+Route::get('/updatepaswordadmin', [TrackingPegawaiController::class, 'update_pass_admin']);
 
 Route::post('/login', [TrackingPegawaiController::class, 'login']);
 Route::get('/user/{id}', [TrackingPegawaiController::class, 'show']);
